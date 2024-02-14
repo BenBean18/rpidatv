@@ -9,11 +9,14 @@ char InitDma(void *FunctionTerminate)
 	// on process exit!
 	int i;
 	for (i = 0; i < 64; i++) {
-		struct sigaction sa;
+		// window size change != process exit...
+		if (i != 28) {
+			struct sigaction sa;
 
-		memset(&sa, 0, sizeof(sa));
-		sa.sa_handler = FunctionTerminate;//terminate;
-		sigaction(i, &sa, NULL);
+			memset(&sa, 0, sizeof(sa));
+			sa.sa_handler = FunctionTerminate;//terminate;
+			sigaction(i, &sa, NULL);
+		}
 	}
 
 	NUM_SAMPLES = NUM_SAMPLES_MAX;
